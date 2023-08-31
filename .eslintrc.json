@@ -10,5 +10,5 @@
     },
     "plugins": ["@typescript-eslint"],
     "root": true,
-    "ignorePatterns": ["node_modules", "test", "dist", "**/*spec.ts", "client"]
+    "ignorePatterns": ["node_modules", "test", "dist", "**/*spec.ts", "client", "prisma"]
 }
