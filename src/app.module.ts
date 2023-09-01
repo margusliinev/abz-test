@@ -6,6 +6,7 @@ import { join } from 'path';
 import { PositionsModule } from './positions/positions.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { TokenModule } from './token/token.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { TokenModule } from './token/token.module';
         PositionsModule,
         PrismaModule,
         TokenModule,
+        UsersModule,
     ],
     controllers: [AppController],
     providers: [AppService],
