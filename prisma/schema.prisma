@@ -30,3 +30,9 @@ model Position {
 
   @@map("positions")
 }
+
+model Token {
+  token String @id
+
+  @@map("tokens")
+}

@@ -11,7 +11,7 @@ async function bootstrap() {
                 const validationErrors = errors.map((error) => error.constraints);
                 const validationProperties = errors.map((error) => error.property);
                 const fails = validationErrors.map((error, index) => {
-                    const message = Object.values(error || {})[0];
+                    const message = Object.values(error || {});
                     const errorProperty = validationProperties[index] || 'error';
                     return { [errorProperty]: message };
                 });
