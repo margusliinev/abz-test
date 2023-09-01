@@ -5,6 +5,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { PositionsModule } from './positions/positions.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { TokenModule } from './token/token.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { PrismaModule } from './prisma/prisma.module';
         }),
         PositionsModule,
         PrismaModule,
+        TokenModule,
     ],
     controllers: [AppController],
     providers: [AppService],
