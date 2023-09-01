@@ -14,9 +14,8 @@ const usersData = fakeUsers;
 
 async function seed() {
     try {
-        await prisma.position.deleteMany();
-
         await prisma.user.deleteMany();
+        await prisma.position.deleteMany();
 
         for (const position of positionsData) {
             await prisma.position.create({
