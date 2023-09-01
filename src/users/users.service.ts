@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
@@ -31,7 +31,34 @@ export class UsersService {
         return `This action returns all users`;
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} user`;
+    async findOne(id: number) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: id },
+            include: {
+                position: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+        });
+        if (!user) {
+            throw new NotFoundException({
+                success: false,
+                message: 'The user with the requested identifier does not exist',
+                fails: { user_id: 'User not found' },
+            });
+        }
+        const returnedUser = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            position: user.position.name,
+            position_id: user.position_id,
+            photo: user.photo,
+        };
+
+        return returnedUser;
     }
 }
