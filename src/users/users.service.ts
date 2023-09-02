@@ -54,12 +54,28 @@ export class UsersService {
         });
 
         const totalPages = Math.ceil(totalUsers / count);
+        const nextPage = +page + 1;
+        const prevPage = +page - 1;
+        const baseUrl =
+            process.env.NODE_ENV === 'development' ? 'http://localhost:5000/api/v1/users' : 'https://abz-test.up.railway.app/api/v1/users';
+        let next_url: string | null = `${baseUrl}?page=${nextPage}&count=${count}`;
+        let prev_url: string | null = `${baseUrl}?page=${prevPage}&count=${count}`;
+        if (nextPage > totalPages) {
+            next_url = null;
+        }
+        if (prevPage < 1 || prevPage > totalPages) {
+            prev_url = null;
+        }
+        if (page > totalPages) {
+            throw new NotFoundException({ success: false, message: 'Page not found' });
+        }
 
         return {
             currentPage: page,
             total_pages: totalPages,
             total_users: totalUsers,
             currentCount: count,
+            links: { next_url, prev_url },
             users: formattedUsers,
         };
     }
