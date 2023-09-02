@@ -27,8 +27,41 @@ export class UsersService {
         return newUser;
     }
 
-    findAll() {
-        return `This action returns all users`;
+    async findAll(page: number, offset: number, count: number) {
+        const skip = (page - 1) * count;
+        const users = await this.prisma.user.findMany({
+            skip: offset ? offset : skip,
+            take: count,
+            include: { position: { select: { name: true } } },
+            orderBy: { registration_timestamp: 'desc' },
+        });
+
+        const totalUsers = await this.prisma.user.count();
+
+        const formattedUsers = users.map((user) => {
+            const registrationTimestampUnix = user.registration_timestamp ? Math.floor(new Date(user.registration_timestamp).getTime() / 1000) : null;
+
+            return {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                position: user.position.name,
+                position_id: user.position_id,
+                registration_timestamp: registrationTimestampUnix,
+                photo: user.photo,
+            };
+        });
+
+        const totalPages = Math.ceil(totalUsers / count);
+
+        return {
+            currentPage: page,
+            total_pages: totalPages,
+            total_users: totalUsers,
+            currentCount: count,
+            users: formattedUsers,
+        };
     }
 
     async findOne(id: number) {
@@ -49,7 +82,7 @@ export class UsersService {
                 fails: { user_id: 'User not found' },
             });
         }
-        const returnedUser = {
+        const formattedUser = {
             id: user.id,
             name: user.name,
             email: user.email,
@@ -59,6 +92,6 @@ export class UsersService {
             photo: user.photo,
         };
 
-        return returnedUser;
+        return formattedUser;
     }
 }
