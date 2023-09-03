@@ -26,14 +26,16 @@ export default function RegisterForm() {
             .unwrap()
             .then((res) => {
                 if (res.success) {
+                    (e.target as HTMLFormElement).reset();
                     toast({
                         title: 'Created a new user',
                     });
                 }
             })
+
             .catch((err: UserErrorResponse) => {
                 console.log(err);
-                if (err.data.message === 'The token is missing.' || err.data.message === 'The token is invalid.') {
+                if (err.status === 401 || err.status === 409) {
                     toast({
                         title: 'Failed to create user',
                         description: err.data.message,
@@ -41,6 +43,8 @@ export default function RegisterForm() {
                     });
                 }
             });
+        (e.target as HTMLFormElement).reset();
+        console.log(e.target);
         dispatch(setAuthToken(null));
     };
 
@@ -120,7 +124,7 @@ export default function RegisterForm() {
                     <Label htmlFor='position_id'>Position ID</Label>
                     <Select name='position_id' onValueChange={handleChange2}>
                         <SelectTrigger>
-                            <SelectValue placeholder='Select a position ID' />
+                            <SelectValue id='position_id' placeholder='Select a position ID' />
                         </SelectTrigger>
                         <SelectContent>
                             {data?.positions.map((position: Position) => {

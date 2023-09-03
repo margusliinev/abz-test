@@ -57,3 +57,9 @@ export type UsersResponse = {
     };
     users: User[];
 };
+
+export interface GetUsersParams {
+    page?: number;
+    count?: number;
+    offset?: number;
+}

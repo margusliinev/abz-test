@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { PositionsResponse, UserResponse, UsersResponse } from '@/types';
+import { GetUsersParams, PositionsResponse, UserResponse, UsersResponse } from '@/types';
 import { RootState } from '@/store';
 
 export const apiSlice = createApi({
@@ -14,6 +14,7 @@ export const apiSlice = createApi({
             return headers;
         },
     }),
+    tagTypes: ['Users'],
     endpoints: (builder) => ({
         getPositions: builder.query<PositionsResponse, undefined>({
             query: () => ({
@@ -28,12 +29,17 @@ export const apiSlice = createApi({
                 body: body,
                 formData: true,
             }),
+            invalidatesTags: ['Users'],
         }),
-        getUsers: builder.query<UsersResponse, undefined>({
-            query: () => ({
+        getUsers: builder.query<UsersResponse, GetUsersParams>({
+            query: (queryArgs) => ({
                 url: '/users',
                 method: 'GET',
+                params: {
+                    ...queryArgs,
+                },
             }),
+            providesTags: ['Users'],
         }),
     }),
 });

@@ -2,7 +2,7 @@ import { useGetUsersQuery } from '@/features/api/apiSlice';
 import { Avatar, AvatarFallback, AvatarImage } from './ui';
 
 export default function Pagination() {
-    const { data } = useGetUsersQuery(undefined);
+    const { data } = useGetUsersQuery({ page: 1, count: 6 });
     return (
         <section className='bg-gray-100 pt-20 pb-20 px-20'>
             <div className='flex justify-between mb-10'>
