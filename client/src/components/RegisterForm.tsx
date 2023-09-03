@@ -1,4 +1,4 @@
-import { Input, Label, Select, SelectValue, SelectTrigger, SelectContent, SelectItem, Button } from '../components/ui';
+import { Input, Label, Button } from '../components/ui';
 import { useToast } from '../components/ui';
 import { Position, UserErrorResponse } from '@/types';
 import { useEffect, useRef } from 'react';
@@ -34,7 +34,6 @@ export default function RegisterForm() {
             })
 
             .catch((err: UserErrorResponse) => {
-                console.log(err);
                 if (err.status === 401 || err.status === 409) {
                     toast({
                         title: 'Failed to create user',
@@ -43,8 +42,6 @@ export default function RegisterForm() {
                     });
                 }
             });
-        (e.target as HTMLFormElement).reset();
-        console.log(e.target);
         dispatch(setAuthToken(null));
     };
 
@@ -70,8 +67,8 @@ export default function RegisterForm() {
     }, [isError, error]);
 
     return (
-        <section className='bg-gray-100 grid place-items-center pt-20 pb-20'>
-            <form className='w-full max-w-sm bg-white p-6 rounded-md border shadow-md grid gap-3' onSubmit={handleSubmit}>
+        <section className='grid justify-center pt-20 pb-20'>
+            <form className='w-full max-w-sm bg-white p-6 rounded-md border shadow-md h-fit grid gap-3 mt-10' onSubmit={handleSubmit}>
                 <div className='flex items-center justify-between mb-2'>
                     <h1 className='font-semibold text-lg'>Add new user</h1>
                     <span className='flex items-center gap-2'>
@@ -122,20 +119,32 @@ export default function RegisterForm() {
                 </div>
                 <div className='grid gap-3'>
                     <Label htmlFor='position_id'>Position ID</Label>
-                    <Select name='position_id' onValueChange={handleChange2}>
-                        <SelectTrigger>
-                            <SelectValue id='position_id' placeholder='Select a position ID' />
-                        </SelectTrigger>
-                        <SelectContent>
+                    <div className='relative'>
+                        <select
+                            className='appearance-none flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+                            name='position_id'
+                            id='position_id'
+                            onChange={handleChange2}
+                        >
+                            <option value=''>Select a position ID</option>
                             {data?.positions.map((position: Position) => {
                                 return (
-                                    <SelectItem value={`${position.id}`} key={position.id}>
+                                    <option value={position.id} key={position.id}>
                                         {position.id}
-                                    </SelectItem>
+                                    </option>
                                 );
                             })}
-                        </SelectContent>
-                    </Select>
+                        </select>
+                        <svg
+                            className='absolute w-4 h-4 text-gray-600 right-3 top-3'
+                            fill='none'
+                            stroke='currentColor'
+                            viewBox='0 0 24 24'
+                            xmlns='http://www.w3.org/2000/svg'
+                        >
+                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 9l-7 7-7-7'></path>
+                        </svg>
+                    </div>
                     <p ref={positionRef} className='text-destructive text-sm' id='position-error'></p>
                 </div>
                 <div className='grid gap-3'>
@@ -144,7 +153,7 @@ export default function RegisterForm() {
                     <p ref={photoRef} className='text-destructive text-sm' id='photo-error'></p>
                 </div>
                 <Button type='submit' size={'sm'} className='mt-4'>
-                    {isLoading ? <ButtonSpinner /> : 'Register'}
+                    {isLoading ? <ButtonSpinner color='white' /> : 'Register'}
                 </Button>
             </form>
         </section>

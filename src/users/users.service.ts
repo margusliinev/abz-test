@@ -18,7 +18,9 @@ export class UsersService {
         }
 
         const url = await this.cloudinary.uploadPhoto(createUserDto.photo);
-        const newUser = await this.prisma.user.create({ data: { ...createUserDto, position_id: Number(createUserDto.position_id), photo: url } });
+        const newUser = await this.prisma.user.create({
+            data: { ...createUserDto, position_id: Number(createUserDto.position_id), photo: url },
+        });
 
         if (!newUser) {
             throw new InternalServerErrorException({ success: false, message: 'Failed to create new user' });

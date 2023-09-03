@@ -6,8 +6,8 @@ function App() {
     return (
         <>
             <Navbar />
-            <main className='w-screen h-screen'>
-                <div className='grid grid-cols-2 h-full'>
+            <main className='h-screen grid place-items-center'>
+                <div className='grid 2xl:flex 2xl:justify-between'>
                     <RegisterForm />
                     <Pagination />
                 </div>
