@@ -41,7 +41,7 @@ export class UsersGuard implements CanActivate {
         const dbToken = await this.getTokenFromDatabase(token);
 
         if (!dbToken) {
-            throw new UnauthorizedException({ success: false, message: 'The token expired.' });
+            throw new UnauthorizedException({ success: false, message: 'The token is invalid.' });
         }
 
         await this.prisma.token.delete({ where: { token } });

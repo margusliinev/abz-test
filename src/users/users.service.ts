@@ -39,8 +39,6 @@ export class UsersService {
         const totalUsers = await this.prisma.user.count();
 
         const formattedUsers = users.map((user) => {
-            const registrationTimestampUnix = user.registration_timestamp ? Math.floor(new Date(user.registration_timestamp).getTime() / 1000) : null;
-
             return {
                 id: user.id,
                 name: user.name,
@@ -48,7 +46,7 @@ export class UsersService {
                 phone: user.phone,
                 position: user.position.name,
                 position_id: user.position_id,
-                registration_timestamp: registrationTimestampUnix,
+                registration_timestamp: user.registration_timestamp,
                 photo: user.photo,
             };
         });

@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { PositionsModule } from './positions/positions.module';
@@ -24,7 +22,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
         CloudinaryModule,
         NestjsFormDataModule,
     ],
-    controllers: [AppController],
-    providers: [AppService],
+    controllers: [],
+    providers: [],
 })
 export class AppModule {}

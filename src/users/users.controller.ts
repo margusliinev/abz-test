@@ -10,7 +10,7 @@ export class UsersController {
 
     @UseGuards(UsersGuard)
     @Post()
-    @FormDataRequest({ storage: FileSystemStoredFile })
+    @FormDataRequest({ storage: FileSystemStoredFile, fileSystemStoragePath: './uploads' })
     async create(@Body() createUserDto: CreateUserDto) {
         const newUser = await this.usersService.create(createUserDto);
         return { success: true, user_id: newUser.id, message: 'New user successfully registered' };
@@ -21,6 +21,9 @@ export class UsersController {
         if (page < 1) {
             throw new BadRequestException({ success: false, message: 'Validation failed', fails: { page: 'The page must be at least 1.' } });
         }
+
+        if (!page) page = 1;
+        if (!count) count = 5;
 
         const { currentPage, total_pages, total_users, currentCount, links, users } = await this.usersService.findAll(+page, +offset, +count);
 

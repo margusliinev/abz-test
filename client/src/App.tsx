@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import RegisterForm from './components/RegisterForm';
+import Pagination from './components/Pagination';
 
 function App() {
-    const [greeting, setGreeting] = useState('');
-
-    useEffect(() => {
-        void fetch('/api/v1')
-            .then((res) => res.text())
-            .then(setGreeting);
-    }, []);
-
     return (
-        <main>
-            <h1>{greeting}</h1>
-        </main>
+        <>
+            <Navbar />
+            <main className='w-screen h-screen'>
+                <div className='grid grid-cols-2 h-full'>
+                    <RegisterForm />
+                    <Pagination />
+                </div>
+            </main>
+        </>
     );
 }
 

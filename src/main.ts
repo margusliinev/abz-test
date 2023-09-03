@@ -10,11 +10,13 @@ async function bootstrap() {
             exceptionFactory(errors) {
                 const validationErrors = errors.map((error) => error.constraints);
                 const validationProperties = errors.map((error) => error.property);
-                const fails = validationErrors.map((error, index) => {
-                    const message = Object.values(error || {});
-                    const errorProperty = validationProperties[index] || 'error';
-                    return { [errorProperty]: message };
-                });
+                const fails = validationErrors
+                    .map((error, index) => {
+                        const message = Object.values(error || {});
+                        const errorProperty = validationProperties[index] || 'error';
+                        return { [errorProperty]: message[0] };
+                    })
+                    .reduce((acc, curr) => ({ ...acc, ...curr }), {});
                 return new BadRequestException({
                     success: false,
                     message: 'Validation failed',
