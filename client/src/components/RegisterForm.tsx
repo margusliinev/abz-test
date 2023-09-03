@@ -50,7 +50,7 @@ export default function RegisterForm() {
         nextElementSibling.textContent = '';
     };
 
-    const handleChange2 = () => {
+    const handleChangeSelect = () => {
         if (positionRef.current) {
             positionRef.current.textContent = '';
         }
@@ -124,7 +124,7 @@ export default function RegisterForm() {
                             className='appearance-none flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
                             name='position_id'
                             id='position_id'
-                            onChange={handleChange2}
+                            onChange={handleChangeSelect}
                         >
                             <option value=''>Select a position ID</option>
                             {data?.positions.map((position: Position) => {

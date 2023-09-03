@@ -2,7 +2,6 @@ import { useGetUsersQuery } from '@/features/api/apiSlice';
 import { Avatar, AvatarFallback, AvatarImage } from './ui';
 import PageSpinner from './PageSpinner';
 import { useState } from 'react';
-import ButtonSpinner from './ButtonSpinner';
 
 const initialPageState = {
     page: 1,
@@ -11,7 +10,7 @@ const initialPageState = {
 
 export default function Pagination() {
     const [pageState, setPageState] = useState(initialPageState);
-    const { data, isLoading, isFetching } = useGetUsersQuery(pageState, { refetchOnMountOrArgChange: true });
+    const { data, isLoading } = useGetUsersQuery(pageState, { refetchOnMountOrArgChange: true });
 
     const nextPage = () => {
         let newPage = pageState.page + 1;
@@ -38,11 +37,10 @@ export default function Pagination() {
     }
 
     return (
-        <section className='pt-20 pb-20 px-20'>
+        <section className='pt-4 pb-20 px-4 2xl:px-20 2xl:pt-20'>
             <div className='flex justify-between mb-4'>
                 <h1 className='text-xl font-medium'>Users Pagination</h1>
                 <div className='flex items-center gap-4'>
-                    {isFetching ? <ButtonSpinner color='blue' /> : null}
                     <p className='font-medium'>Total Users: {data?.total_users}</p>
                 </div>
             </div>
