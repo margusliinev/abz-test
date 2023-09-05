@@ -118,7 +118,7 @@ export default function RegisterForm() {
                     <p ref={phoneRef} className='text-destructive text-sm' id='phone-error'></p>
                 </div>
                 <div className='grid gap-3'>
-                    <Label htmlFor='position_id'>Position ID</Label>
+                    <Label htmlFor='position_id'>Position</Label>
                     <div className='relative'>
                         <select
                             className='appearance-none flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
@@ -126,11 +126,11 @@ export default function RegisterForm() {
                             id='position_id'
                             onChange={handleChangeSelect}
                         >
-                            <option value=''>Select a position ID</option>
+                            <option value=''>Select a Position</option>
                             {data?.positions.map((position: Position) => {
                                 return (
                                     <option value={position.id} key={position.id}>
-                                        {position.id}
+                                        {position.name}
                                     </option>
                                 );
                             })}
